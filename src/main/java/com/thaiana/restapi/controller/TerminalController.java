@@ -1,6 +1,8 @@
 package com.thaiana.restapi.controller;
 
 import com.thaiana.restapi.model.Terminal;
+import com.thaiana.restapi.service.TerminalService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,9 +11,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/terminal")
 public class TerminalController {
 
+    @Autowired
+    TerminalService terminalService;
+
     @PostMapping(consumes = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<Terminal> post(@RequestBody String body) {
-        return ResponseEntity.ok(null);
+        Terminal terminal = terminalService.parseTerminal(body);
+        return ResponseEntity.ok(terminal);
     }
 
     @GetMapping(path = "/{logic}")
