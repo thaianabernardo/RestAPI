@@ -1,10 +1,17 @@
 package com.thaiana.restapi.service;
 
 import com.thaiana.restapi.model.Terminal;
+import com.thaiana.restapi.repository.TerminalRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TerminalService {
+
+    public TerminalRepository repository;
+
+    public TerminalService(TerminalRepository terminalRepository) {
+        this.repository = terminalRepository;
+    }
 
     public Terminal parseTerminal(String data) {
         Terminal terminal = new Terminal();
