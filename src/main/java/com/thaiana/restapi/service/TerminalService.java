@@ -2,6 +2,10 @@ package com.thaiana.restapi.service;
 
 import com.thaiana.restapi.model.Terminal;
 import com.thaiana.restapi.repository.TerminalRepository;
+import org.everit.json.schema.Schema;
+import org.everit.json.schema.loader.SchemaLoader;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,6 +33,18 @@ public class TerminalService {
         terminal.setVerfm(parts[9]);
 
         return terminal;
+    }
+
+    public boolean validateJson(String jsonString) {
+        JSONObject jsonSchema = new JSONObject(new JSONTokener(TerminalService.class.getResourceAsStream("/schema.json")));
+        Schema schemaValidator = SchemaLoader.load(jsonSchema);
+        try {
+            schemaValidator.validate(new JSONObject(jsonString));
+            return true;
+        } catch (Exception e) {
+            System.out.println(" message is :"+ e.getMessage());
+        }
+        return false;
     }
 
 }

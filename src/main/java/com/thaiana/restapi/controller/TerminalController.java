@@ -32,6 +32,8 @@ public class TerminalController {
 
     @PutMapping(path = "/{logic}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Terminal> put(@PathVariable("logic") int logic, @RequestBody String terminal) throws JsonProcessingException {
+        if(!terminalService.validateJson(terminal))
+            return ResponseEntity.badRequest().build();
         ObjectMapper mapper = new ObjectMapper();
         Terminal newTerminal = mapper.readValue(terminal, Terminal.class);
         if(logic != newTerminal.getLogic())
